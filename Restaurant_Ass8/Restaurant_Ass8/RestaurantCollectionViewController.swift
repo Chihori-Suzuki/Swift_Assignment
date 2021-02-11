@@ -16,12 +16,19 @@ class RestaurantCollectionViewController: UICollectionViewController {
         case main
     }
     
+    enum Layout {
+        case grid
+        case column
+    }
+    
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     var sections = [Section]()
     
     
     var filterdItems = Item.restaurantList
+    
+    var activeLayout: Layout = .grid
     
     var filteredItemSnapshot: NSDiffableDataSourceSnapshot<Section, Item> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
@@ -35,14 +42,37 @@ class RestaurantCollectionViewController: UICollectionViewController {
         return snapshot
     }
     
+    var layoutBtn = UIBarButtonItem()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Restaurant"
+        layoutBtn = .init(image: UIImage(systemName: "rectangle.grid.1x2"), style: .done, target: self, action: #selector(generateGridLayout(_:)))
+        navigationItem.leftBarButtonItem = layoutBtn
+        
         collectionView.backgroundColor = UIColor.Theme1.white
         collectionView.setCollectionViewLayout(createLayout(), animated: false)
         collectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier)
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseIdentifier)
         
         congfigureDataSource()
+    }
+
+    @objc func generateGridLayout(_ sender: UIBarButtonItem)  {
+        
+        switch self.activeLayout {
+        case .grid:
+            self.activeLayout = .column
+            layoutBtn.image = UIImage(systemName: "square.grid.2x2")
+            
+        case .column:
+            self.activeLayout = .grid
+            layoutBtn.image = UIImage(systemName: "rectangle.grid.1x2")
+            
+        //square.grid.2x2
+        }
+        collectionView.collectionViewLayout = createLayout()
+        
     }
 
     func createLayout() -> UICollectionViewLayout {
@@ -73,27 +103,55 @@ class RestaurantCollectionViewController: UICollectionViewController {
                 return section
                 
             case .main:
-                let item = NSCollectionLayoutItem(
-                    layoutSize: .init(
-                      widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .fractionalWidth(0.5)
+                
+                switch self.activeLayout {
+                case .grid:
+                    
+                    let item = NSCollectionLayoutItem(
+                        layoutSize: .init(
+                            widthDimension: .fractionalWidth(1.0),
+                            heightDimension: .fractionalWidth(0.5)
+                        )
                     )
-                )
-                item.contentInsets = .init(top: 0, leading: 10, bottom: 20, trailing: 10)
-                
-                let group = NSCollectionLayoutGroup.horizontal(
-                  layoutSize: .init(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .estimated(200)
-                  ),
-                    subitem: item,
-                    count: 2
-                )
-                let section = NSCollectionLayoutSection(group: group)
-//                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-                section.contentInsets = .init(top: 8, leading: 0, bottom: 20, trailing: 0)
-                
-                return section
+                    item.contentInsets = .init(top: 0, leading: 10, bottom: 20, trailing: 10)
+                    
+                    let group = NSCollectionLayoutGroup.horizontal(
+                        layoutSize: .init(
+                            widthDimension: .fractionalWidth(1.0),
+                            heightDimension: .estimated(200)
+                        ),
+                        subitem: item,
+                        count: 2
+                    )
+                    let section = NSCollectionLayoutSection(group: group)
+                    //                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                    section.contentInsets = .init(top: 8, leading: 0, bottom: 20, trailing: 0)
+                    
+                    return section
+                case .column:
+                    let item = NSCollectionLayoutItem(
+                        layoutSize: .init(
+                            widthDimension: .fractionalWidth(1.0),
+                            heightDimension: .fractionalWidth(0.5)
+                        )
+                    )
+                    item.contentInsets = .init(top: 0, leading: 10, bottom: 20, trailing: 10)
+                    
+                    let group = NSCollectionLayoutGroup.horizontal(
+                        layoutSize: .init(
+                            widthDimension: .fractionalWidth(1.0),
+                            heightDimension: .estimated(250)
+                        ),
+                        subitem: item,
+                        count: 1
+                    )
+                    let section = NSCollectionLayoutSection(group: group)
+                    //                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                    section.contentInsets = .init(top: 8, leading: 0, bottom: 20, trailing: 0)
+                    
+                    return section
+                    
+                }
             }
         }
         return layout
@@ -119,15 +177,7 @@ class RestaurantCollectionViewController: UICollectionViewController {
             }
         })
         
-//        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-//        snapshot.appendSections([.header])
-//        snapshot.appendItems(Item.headerList, toSection: .header)
-//
-//        snapshot.appendSections([.main])
-//        snapshot.appendItems(Item.restaurantList, toSection: .main)
-//
-//        sections = snapshot.sectionIdentifiers
-//        dataSource.apply(snapshot)
+
         dataSource.apply(filteredItemSnapshot, animatingDifferences: true, completion: nil)
     }
     
@@ -138,9 +188,6 @@ class RestaurantCollectionViewController: UICollectionViewController {
 //        print(indexPath.section)
         if indexPath.section == 0 {
             
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath) as? HeaderCollectionViewCell
-//            let labelText = cell?.label.text
-//
             let selectedItem = Item.headerList[indexPath.item]
             let selectedItemText = selectedItem.header?.name
 //            print(selectedItem.header!.name)

@@ -18,7 +18,6 @@
 		2E59F5BC25D25E1F00CBC06B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5BB25D25E1F00CBC06B /* Header.swift */; };
 		2E59F5C125D2608C00CBC06B /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5C025D2608C00CBC06B /* Main.swift */; };
 		2E59F5C425D26FAF00CBC06B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5C325D26FAF00CBC06B /* Item.swift */; };
-		2E59F5C725D27FD800CBC06B /* Unko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5C625D27FD800CBC06B /* Unko.swift */; };
 		2E59F5CA25D339EF00CBC06B /* UIView+ConstraintLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5C925D339EF00CBC06B /* UIView+ConstraintLayout.swift */; };
 		2E59F5CD25D4635800CBC06B /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5CC25D4635800CBC06B /* UIColor+Theme.swift */; };
 		2E59F5D525D4664D00CBC06B /* RestaurantCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F5D425D4664D00CBC06B /* RestaurantCollectionViewController.swift */; };
@@ -38,7 +37,6 @@
 		2E59F5BB25D25E1F00CBC06B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		2E59F5C025D2608C00CBC06B /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		2E59F5C325D26FAF00CBC06B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		2E59F5C625D27FD800CBC06B /* Unko.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unko.swift; sourceTree = "<group>"; };
 		2E59F5C925D339EF00CBC06B /* UIView+ConstraintLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+ConstraintLayout.swift"; path = "../../RestaurantCollectionView/RestaurantCollectionView/UIView+ConstraintLayout.swift"; sourceTree = "<group>"; };
 		2E59F5CC25D4635800CBC06B /* UIColor+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		2E59F5D425D4664D00CBC06B /* RestaurantCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCollectionViewController.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				2E59F5D425D4664D00CBC06B /* RestaurantCollectionViewController.swift */,
 				2E59F5B525D25CF900CBC06B /* HeaderCollectionViewCell.swift */,
 				2E59F5B825D25D0B00CBC06B /* MainCollectionViewCell.swift */,
-				2E59F5C625D27FD800CBC06B /* Unko.swift */,
 				2E59F5A125D2594200CBC06B /* ViewController.swift */,
 				2E59F5A325D2594200CBC06B /* Main.storyboard */,
 				2E59F5A625D2594300CBC06B /* Assets.xcassets */,
@@ -164,7 +161,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E59F5C725D27FD800CBC06B /* Unko.swift in Sources */,
 				2E59F5A225D2594200CBC06B /* ViewController.swift in Sources */,
 				2E59F5C425D26FAF00CBC06B /* Item.swift in Sources */,
 				2E59F5B925D25D0B00CBC06B /* MainCollectionViewCell.swift in Sources */,

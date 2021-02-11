@@ -56,14 +56,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subTitleLabel)
-//        contentView.backgroundColor = .systemTeal
         
-//        NSLayoutConstraint.activate([
-//            stackView.topAnchor.constraint(equalTo: topAnchor),
-//            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-//            stackView.leadingAnchor.constraint(equalTo: leadingAnchor)
-//        ])
         stackView.matchParent()
         imageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.7).isActive = true
         
