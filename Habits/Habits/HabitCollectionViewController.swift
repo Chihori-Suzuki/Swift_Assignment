@@ -1,0 +1,190 @@
+//
+//  HabitsCollectionViewController.swift
+//  Habits
+//
+//  Created by 鈴木ちほり on 2021/02/12.
+//
+
+import UIKit
+
+private let reuseIdentifier = "Cell"
+
+private let sectionHeaderKind = "SectionHeader"
+private let sectionHeaderIdentifier = "HeaderView"
+
+
+class HabitCollectionViewController: UICollectionViewController {
+
+    typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section,
+       ViewModel.Item>
+
+    enum ViewModel {
+        enum Section: Hashable, Equatable, Comparable {
+            case favorites
+            case category(_ category: Category)
+
+            static func < (lhs: Section, rhs: Section) -> Bool {
+                switch (lhs, rhs) {
+                case (.category(let l), .category(let r)):
+                    return l.name < r.name
+                case (.favorites, _):
+                    return true
+                case (_, .favorites):
+                    return false
+                }
+            }
+        }
+
+        struct Item: Hashable, Equatable, Comparable {
+            let habit: Habit
+            let isFavorite: Bool
+            
+            static func < (lhs: Item, rhs: Item) -> Bool {
+                return lhs.habit < rhs.habit
+            }
+        }
+    }
+    
+
+    
+    struct Model {
+        var habitsByName = [String: Habit]()
+        var favoriteHabits: [Habit] {
+            return Settings.shared.favoriteHabits
+        }
+    }
+
+    var dataSource: DataSourceType!
+    var model = Model()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        dataSource = createDataSource()
+        collectionView.dataSource = dataSource
+        collectionView.collectionViewLayout = createLayout()
+        collectionView.register(NamedSectionHeaderView.self,
+           forSupplementaryViewOfKind: sectionHeaderKind,
+           withReuseIdentifier: sectionHeaderIdentifier)
+    }
+    
+    func update() {
+        print("RUN1")
+        HabitRequest().send { result in
+            switch result {
+            case .success(let habits):
+                print("ok")
+                self.model.habitsByName = habits
+            case .failure:
+                print("ng")
+                self.model.habitsByName = [:]
+            }
+
+            DispatchQueue.main.async {
+                print("RUN")
+                self.updateCollectionView()
+            }
+        }
+    }
+
+
+    func updateCollectionView() {
+        print("RUN")
+        print(model.habitsByName)
+            var itemsBySection = model.habitsByName.values.reduce(
+                into: [ViewModel.Section: [ViewModel.Item]]()) { partial, habit in
+                let section: ViewModel.Section
+                let item: ViewModel.Item
+                print(habit)
+                if model.favoriteHabits.contains(habit) {
+                    section = .favorites
+                    item = ViewModel.Item.init(habit: habit, isFavorite: true)
+                } else {
+                    section = .category(habit.categoty)
+                    item = ViewModel.Item.init(habit: habit, isFavorite: false)
+                }
+                partial[section, default: []].append(item)
+            }
+            itemsBySection = itemsBySection.mapValues { $0.sorted() }
+            let sectionIds = itemsBySection.keys.sorted()
+            print(itemsBySection)
+            dataSource.applySnapshotUsing(sectionIDs: sectionIds, itemsBySection: itemsBySection)
+        }
+    
+    
+    
+    func createDataSource() -> DataSourceType {
+        let dataSource = DataSourceType(collectionView: collectionView) {
+           (collectionView, indexPath, item) in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Habit", for: indexPath) as! PrimarySecondaryTextCollectionViewCell
+            cell.primaryTextLabel.text = item.habit.name
+
+            return cell
+        }
+
+        dataSource.supplementaryViewProvider = { (collectionView, kind,
+           indexPath) in
+            let header =
+               collectionView.dequeueReusableSupplementaryView(ofKind: sectionHeaderKind, withReuseIdentifier: sectionHeaderIdentifier, for: indexPath) as! NamedSectionHeaderView
+
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            switch section {
+            case .favorites:
+                header.nameLabel.text = "Favorites"
+            case .category(let category):
+                header.nameLabel.text = category.name
+            }
+
+            return header
+        }
+        
+        return dataSource
+    }
+    
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let headerSize =
+           NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+           heightDimension: .absolute(36))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: sectionHeaderKind, alignment: .top)
+        sectionHeader.pinToVisibleBounds = true
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0,
+           leading: 10, bottom: 0, trailing: 10)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return UICollectionViewCompositionalLayout(section: section)
+
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let item = self.dataSource.itemIdentifier(for: indexPath)!
+            
+            let favoriteToggle = UIAction(title: item.isFavorite ? "Unfavorite" : "Favorite") { (action) in Settings.shared.toggleFavorite(item.habit)
+                self.updateCollectionView()
+            }
+            
+            return UIMenu(title: "", image: nil, identifier: nil, options: [], children: [favoriteToggle])
+        }
+        
+        return config
+    }
+    // MARK: UICollectionViewDataSource
+
+    // MARK: UICollectionViewDelegate
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        update()
+    }
+
+}
