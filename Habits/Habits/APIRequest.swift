@@ -52,7 +52,6 @@ extension APIRequest where Response: Decodable {
     func send(completion: @escaping (Result<Response, Error>) -> Void) {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             do {
-                print(request.url)
                 print("before data")
                 if let data = data {
                     print(data)

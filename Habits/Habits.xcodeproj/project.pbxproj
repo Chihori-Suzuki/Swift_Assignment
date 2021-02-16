@@ -29,6 +29,8 @@
 		2E59F62825DB246F00CBC06B /* UICollectionViewDiffableDataSource+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F62725DB246F00CBC06B /* UICollectionViewDiffableDataSource+ViewModel.swift */; };
 		2E59F62D25DB365E00CBC06B /* NamedSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F62C25DB365D00CBC06B /* NamedSectionHeaderView.swift */; };
 		2E59F63025DB643C00CBC06B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F62F25DB643C00CBC06B /* User.swift */; };
+		2E59F63325DC623800CBC06B /* HabitStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F63225DC623800CBC06B /* HabitStatistics.swift */; };
+		2E59F63625DC630700CBC06B /* UserCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E59F63525DC630700CBC06B /* UserCount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		2E59F62725DB246F00CBC06B /* UICollectionViewDiffableDataSource+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDiffableDataSource+ViewModel.swift"; sourceTree = "<group>"; };
 		2E59F62C25DB365D00CBC06B /* NamedSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedSectionHeaderView.swift; sourceTree = "<group>"; };
 		2E59F62F25DB643C00CBC06B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2E59F63225DC623800CBC06B /* HabitStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitStatistics.swift; sourceTree = "<group>"; };
+		2E59F63525DC630700CBC06B /* UserCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCount.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				2E59F62425DB1DB700CBC06B /* Settings.swift */,
 				2E59F62C25DB365D00CBC06B /* NamedSectionHeaderView.swift */,
 				2E59F62F25DB643C00CBC06B /* User.swift */,
+				2E59F63225DC623800CBC06B /* HabitStatistics.swift */,
+				2E59F63525DC630700CBC06B /* UserCount.swift */,
 			);
 			path = Habits;
 			sourceTree = "<group>";
@@ -186,12 +192,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E59F60725D74FB800CBC06B /* LogHabitCollectionViewController.swift in Sources */,
+				2E59F63625DC630700CBC06B /* UserCount.swift in Sources */,
 				2E59F5ED25D5FCBE00CBC06B /* ViewController.swift in Sources */,
 				2E59F61A25DAD65A00CBC06B /* APIRequest.swift in Sources */,
 				2E59F60D25D756F600CBC06B /* UserDetailViewController.swift in Sources */,
 				2E59F60125D74F8900CBC06B /* HabitCollectionViewController.swift in Sources */,
 				2E59F62D25DB365E00CBC06B /* NamedSectionHeaderView.swift in Sources */,
 				2E59F5FE25D74EBF00CBC06B /* HomeCollectionViewController.swift in Sources */,
+				2E59F63325DC623800CBC06B /* HabitStatistics.swift in Sources */,
 				2E59F61725D75B1A00CBC06B /* Color.swift in Sources */,
 				2E59F60A25D756CF00CBC06B /* HabitDetailViewController.swift in Sources */,
 				2E59F61D25DAD96F00CBC06B /* APIService.swift in Sources */,
