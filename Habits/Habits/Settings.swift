@@ -9,6 +9,12 @@ import Foundation
 
 
 struct Settings {
+    
+    enum Setting {
+        static let favoriteHabits = "favoriteHabits"
+        static let followedUserIDs = "followedUserIds"
+    }
+    
     static var shared = Settings()
     private let defaults = UserDefaults.standard
     
@@ -48,16 +54,12 @@ struct Settings {
         favoriteHabits = favorites
     }
     
-//    var followedUserIDs: [String] {
-//        get {
-//            return unarchiveJSON(key: Setting.followedUserIDs) ?? []
-//        }
-//        set {
-//            archiveJSON(value: newValue, key: Setting.followedUserIDs)
-//        }
-//    }
-}
-
-enum Setting {
-    static let favoriteHabits = "favoriteHabits"
+    var followedUserIDs: [String] {
+        get {
+            return unarchiveJSON(key: Setting.followedUserIDs) ?? []
+        }
+        set {
+            archiveJSON(value: newValue, key: Setting.followedUserIDs)
+        }
+    }
 }
