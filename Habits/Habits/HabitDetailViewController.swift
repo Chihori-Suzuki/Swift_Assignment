@@ -83,8 +83,11 @@ class HabitDetailViewController: UIViewController {
     
             DispatchQueue.main.async {
                 self.updateCollectionView()
+                //updateCollectionView
             }
         }
     }
+    
+    
     
 }
